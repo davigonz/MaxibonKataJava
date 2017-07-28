@@ -22,15 +22,16 @@ import com.pholser.junit.quickcheck.random.SourceOfRandomness;
 
 public class KarumiesGenerator extends Generator<Developer> {
 
-  private static final Developer[] KARUMIES = new Developer[] {
-      Karumies.PEDRO, Karumies.ALBERTO, Karumies.DAVIDE, Karumies.JORGE, Karumies.SERGIO
-  };
+    private static final Developer[] KARUMIES = new Developer[]{
+            Karumies.PEDRO, Karumies.ALBERTO, Karumies.DAVIDE, Karumies.JORGE, Karumies.SERGIO
+    };
 
-  public KarumiesGenerator() {
-    super(Developer.class);
-  }
+    public KarumiesGenerator() {
+        super(Developer.class);
+    }
 
-  @Override public Developer generate(SourceOfRandomness random, GenerationStatus status) {
-    return KARUMIES[random.nextInt(5)];
-  }
+    @Override
+    public Developer generate(SourceOfRandomness random, GenerationStatus status) {
+        return KARUMIES[random.nextInt(5)];
+    }
 }
