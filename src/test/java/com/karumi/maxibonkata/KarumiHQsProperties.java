@@ -4,13 +4,19 @@ import com.pholser.junit.quickcheck.From;
 import com.pholser.junit.quickcheck.Property;
 import com.pholser.junit.quickcheck.runner.JUnitQuickcheck;
 
+import org.junit.Before;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.verify;
 
 /**
  * Created by davidgonzalez on 28/07/17.
@@ -43,5 +49,36 @@ import static org.junit.Assert.assertTrue;
         karumiHQs.openFridge(developers);
 
         assertTrue(karumiHQs.getMaxibonsLeft() > 2);
+    }
+
+    @Mock
+    Chat chat;
+
+    @Before
+    public void setUp() {
+        // Initializes all the mock anotations
+        MockitoAnnotations.initMocks(this);
+    }
+
+    @Property
+    public void sendMessageWhenThereAreNoMaxibonsInTheFridgeWithAnHungryDeveloper
+            (@From(HungryDevelopersGenerator.class) Developer hungryDeveloper) {
+
+        KarumiHQs karumiHQs = new KarumiHQs(chat);
+
+        karumiHQs.openFridge(hungryDeveloper);
+
+        verify(chat).sendMessage(anyString());
+    }
+
+    @Property
+    public void sendMessageWhenThereAreNoMaxibonsInTheFridgeWithSeveralHungryDevelopers
+            (List<@From(HungryDevelopersGenerator.class) Developer> hungryDevelopers) {
+
+        KarumiHQs karumiHQs = new KarumiHQs(chat);
+
+        karumiHQs.openFridge(hungryDevelopers);
+
+        verify(chat).sendMessage(anyString());
     }
 }
